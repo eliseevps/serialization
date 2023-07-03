@@ -26,7 +26,7 @@ public class Solution {
     public static void main(String[] args) {
         //исправьте outputStream/inputStream в соответствии с путем к вашему реальному файлу
         try {
-            File your_file_name = File.createTempFile("your_file_name", null);
+            File your_file_name = File.createTempFile("file2001.txt", null);
             OutputStream outputStream = new FileOutputStream(your_file_name);
             InputStream inputStream = new FileInputStream(your_file_name);
 
@@ -81,11 +81,24 @@ public class Solution {
         }
 
         public void save(OutputStream outputStream) throws Exception {
-            //implement this method - реализуйте этот метод
+            if (name != null) {
+                outputStream.write(name.getBytes());
+                outputStream.write(13);
+            }
+            for (Asset asset : assets) {
+                outputStream.write(asset.getName().getBytes());
+                outputStream.write(32);
+                outputStream.write(String.valueOf(asset.getPrice()).getBytes());
+                outputStream.write(13);
+            }
+            outputStream.close();
         }
 
         public void load(InputStream inputStream) throws Exception {
-            //implement this method - реализуйте этот метод
+            byte[] buf;
+            buf = inputStream.readAllBytes();
+            String str = buf.toString();
+            String[] arrayFile = str.split("\n");
         }
     }
 }
