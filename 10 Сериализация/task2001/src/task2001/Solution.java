@@ -1,3 +1,5 @@
+//Complete
+
 package task2001;
 
 import java.io.*;
@@ -37,7 +39,7 @@ public class Solution {
             Human somePerson = new Human();
             somePerson.load(inputStream);
             inputStream.close();
-            //check here that ivanov equals to somePerson - проверьте тут, что ivanov и somePerson равны
+            System.out.println("ivanov and somePerson equals - " + ivanov.equals(somePerson));
 
         } catch (IOException e) {
             //e.printStackTrace();
@@ -83,22 +85,31 @@ public class Solution {
         public void save(OutputStream outputStream) throws Exception {
             if (name != null) {
                 outputStream.write(name.getBytes());
-                outputStream.write(13);
             }
             for (Asset asset : assets) {
+                outputStream.write(13);
                 outputStream.write(asset.getName().getBytes());
                 outputStream.write(32);
                 outputStream.write(String.valueOf(asset.getPrice()).getBytes());
-                outputStream.write(13);
             }
             outputStream.close();
         }
 
         public void load(InputStream inputStream) throws Exception {
-            byte[] buf;
-            buf = inputStream.readAllBytes();
-            String str = buf.toString();
-            String[] arrayFile = str.split("\n");
+            BufferedReader readerFile = new BufferedReader(new InputStreamReader(inputStream));
+
+            if (readerFile.ready()) {
+                name = readerFile.readLine();
+            }
+
+            while (readerFile.ready()) {
+                String asset;
+                if ((asset = readerFile.readLine()) != null) {
+                    String[] arrayAsset = asset.split(" ");
+                    assets.add(new Asset(arrayAsset[0], Double.parseDouble(arrayAsset[1])));
+                }
+            }
+            readerFile.close();
         }
     }
 }

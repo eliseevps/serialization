@@ -1,3 +1,5 @@
+//Complete
+
 package task2003;
 
 import java.io.*;
@@ -21,20 +23,30 @@ Requirements:
 public class Solution {
 
     public static Map<String, String> runtimeStorage = new HashMap<>();
+    public static Properties properties = new Properties();
 
     public static void save(OutputStream outputStream) throws Exception {
-        //напишите тут ваш код
+        runtimeStorage.put("number", "12394");
+        properties.clear();
+        properties.putAll(runtimeStorage);
+        properties.store(outputStream, "new properties");
     }
 
     public static void load(InputStream inputStream) throws IOException {
-        //напишите тут ваш код
+        properties.clear();
+        properties.load(inputStream);
+        for (Map.Entry<Object, Object> pair : properties.entrySet()) {
+            runtimeStorage.put((String) pair.getKey(), (String) pair.getValue());
+        }
     }
 
     public static void main(String[] args) {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-             FileInputStream fos = new FileInputStream(reader.readLine())) {
-            load(fos);
-        } catch (IOException e) {
+             FileInputStream fis = new FileInputStream(reader.readLine());
+             FileOutputStream fos = new FileOutputStream(reader.readLine());) {
+            load(fis);
+            save(fos);
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
