@@ -1,3 +1,5 @@
+//Complete
+
 package task2005;
 
 import java.io.*;
@@ -24,7 +26,7 @@ public class Solution {
     public static void main(String[] args) {
         //исправь outputStream/inputStream в соответствии с путем к твоему реальному файлу
         try {
-            File your_file_name = File.createTempFile("your_file_name", null);
+            File your_file_name = File.createTempFile("file2005.txt", null);
             OutputStream outputStream = new FileOutputStream(your_file_name);
             InputStream inputStream = new FileInputStream(your_file_name);
 
@@ -58,7 +60,7 @@ public class Solution {
 
             Human human = (Human) o;
 
-            if (name == null ? !name.equals(human.name) : human.name != null) return false;
+            if (name != null ? !name.equals(human.name) : human.name != null) return false;
             return assets != null ? assets.equals(human.assets) : human.assets == null;
 
         }

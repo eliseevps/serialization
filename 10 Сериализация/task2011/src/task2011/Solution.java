@@ -1,9 +1,8 @@
+//Complete
+
 package task2011;
 
-import java.io.Externalizable;
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
+import java.io.*;
 
 /* 
 Externalizable для апартаментов
@@ -21,7 +20,7 @@ Requirements:
 
 public class Solution {
 
-    public static class Apartment {
+    public static class Apartment implements Externalizable {
 
         private String address;
         private int year;
@@ -44,9 +43,33 @@ public class Solution {
         public String toString() {
             return ("Address: " + address + "\n" + "Year: " + year);
         }
+
+        @Override
+        public void writeExternal(ObjectOutput out) throws IOException {
+            out.writeObject(address);
+            out.writeInt(year);
+        }
+
+        @Override
+        public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+            address = (String) in.readObject();
+            year = in.readInt();
+        }
     }
 
     public static void main(String[] args) {
+        String fileName = "file2011.txt";
+        try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(fileName));
+             ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(fileName))) {
+            Apartment apartmentOut = new Apartment("London", 1800);
+            System.out.println(apartmentOut);
+            objectOutputStream.writeObject(apartmentOut);
 
+            Apartment apartmentIn = (Apartment) objectInputStream.readObject();
+            System.out.println(apartmentIn);
+
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

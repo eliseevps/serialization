@@ -1,6 +1,8 @@
+//Complete
+
 package task2016;
 
-import java.io.Serializable;
+import java.io.*;
 
 /* 
 Минимум изменений
@@ -18,7 +20,7 @@ Requirements:
 8. Класс C не должен явно поддерживать интерфейс Serializable.*/
 
 public class Solution {
-    public class A {
+    public class A implements Externalizable {
         String name = "A";
 
         public A(String name) {
@@ -28,6 +30,16 @@ public class Solution {
         @Override
         public String toString() {
             return name;
+        }
+
+        @Override
+        public void writeExternal(ObjectOutput out) throws IOException {
+            out.writeObject(name);
+        }
+
+        @Override
+        public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+            name = (String) in.readObject();
         }
     }
 
