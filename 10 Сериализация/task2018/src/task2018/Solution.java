@@ -1,3 +1,5 @@
+//Complete
+
 package task2018;
 
 import java.io.*;
@@ -23,10 +25,14 @@ Requirements:
 5. Программа должна выполняться без ошибок.
 6. При десериализации должны корректно восстанавливаться значение полей nameA и nameB.*/
 
-public class Solution {
+public class Solution implements Serializable {
     public static class A {
 
         protected String nameA = "A";
+
+        public A() {
+
+        }
 
         public A(String nameA) {
             this.nameA += nameA;
@@ -41,6 +47,16 @@ public class Solution {
             super(nameA);
             this.nameA += nameA;
             this.nameB = nameB;
+        }
+
+        private void writeObject(ObjectOutputStream oos) throws Exception {
+            oos.defaultWriteObject();
+            oos.writeObject(nameA);
+        }
+
+        private void readObject(ObjectInputStream ois) throws Exception {
+            ois.defaultReadObject();
+            nameA = (String) ois.readObject();
         }
     }
 

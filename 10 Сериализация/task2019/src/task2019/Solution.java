@@ -1,3 +1,5 @@
+//Complete
+
 package task2019;
 
 import java.io.*;
@@ -19,7 +21,7 @@ Requirements:
 public class Solution implements Serializable {
 
     public static void main(String args[]) throws Exception {
-        FileOutputStream fileOutput = new FileOutputStream("your.file.name");
+        FileOutputStream fileOutput = new FileOutputStream("file2019.txt");
         ObjectOutputStream outputStream = new ObjectOutputStream(fileOutput);
 
         Solution solution = new Solution();
@@ -29,14 +31,14 @@ public class Solution implements Serializable {
         outputStream.close();
 
         //load
-        FileInputStream fiStream = new FileInputStream("your.file.name");
+        FileInputStream fiStream = new FileInputStream("file2019.txt");
         ObjectInputStream objectStream = new ObjectInputStream(fiStream);
 
         Solution loadedObject = (Solution) objectStream.readObject();
 
         fiStream.close();
         objectStream.close();
-
+        System.out.println(loadedObject);
         //Attention!!
         System.out.println(loadedObject.size());
     }
@@ -47,12 +49,19 @@ public class Solution implements Serializable {
         return m;
     }
 
-    public void Solution() {
+    public Solution() {
         m.put("Mickey", "Mouse");
         m.put("Mickey", "Mantle");
     }
 
     public int size() {
         return m.size();
+    }
+
+    @Override
+    public String toString() {
+        return "Solution{" +
+                "m=" + m +
+                '}';
     }
 }

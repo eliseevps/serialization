@@ -1,7 +1,8 @@
+//Complete
+
 package task2017;
 
-import java.io.ObjectInputStream;
-import java.io.Serializable;
+import java.io.*;
 
 /* 
 Десериализация
@@ -18,12 +19,22 @@ Requirements:
 5. Метод getOriginalObject должен возвращать null, если при попытке десериализации не был получен объект типа A.
 6. Метод getOriginalObject должен возвращать null, если при попытке десериализации возникло исключение.*/
 
-public class Solution {
+public class Solution implements Serializable {
+    public static String fileName = "file2017.txt";
+
     public A getOriginalObject(ObjectInputStream objectStream) {
-        return null;
+        A a;
+        try {
+            objectStream = new ObjectInputStream(new FileInputStream(fileName));
+            a = (A) objectStream.readObject();
+            return a;
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Возникло исключение");
+            return null;
+        }
     }
 
-    public class A {
+    public class A implements Serializable {
     }
 
     public class B extends A {
@@ -33,6 +44,17 @@ public class Solution {
     }
 
     public static void main(String[] args) {
-
+        try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(fileName));
+        ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(fileName))) {
+            Solution solutionOut = new Solution();
+            A a = solutionOut.new B();
+            System.out.println(a);
+            outputStream.writeObject(a);
+            Solution solutionIn = new Solution();
+            B b = (B) solutionIn.getOriginalObject(objectInputStream);
+            System.out.println(b);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

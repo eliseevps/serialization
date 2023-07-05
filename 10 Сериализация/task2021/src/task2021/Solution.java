@@ -17,9 +17,27 @@ Requirements:
 
 public class Solution implements Serializable {
     public static class SubSolution extends Solution {
+        private void writeObject(ObjectOutputStream oos) throws Exception {
+            throw new NotSerializableException();
+        }
+
+        private void readObject(ObjectInputStream ois) throws Exception {
+            throw new NotSerializableException();
+        }
     }
 
     public static void main(String[] args) {
-
+        String fileName = "file2021.txt";
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName));
+             ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
+            Solution solution = new SubSolution();
+            oos.writeObject(solution);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
